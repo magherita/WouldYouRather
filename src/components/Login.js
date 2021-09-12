@@ -1,86 +1,131 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
+
 import {
+    makeStyles
+} from "@material-ui/core/styles";
+import {
+    Box,
     Card,
-    Form,
-    Button
-} from "react-bootstrap";
+    CardContent,
+    CardMedia,
+    Button,
+    Typography,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem
+} from "@material-ui/core";
 
 import { handleSetAuthUser } from "../actions/authedUser";
 
-class Login extends React.Component {
-    state = {
-        selectedUser: "none"
-    };
+const useStyles = makeStyles((theme) => ({
+    root: {
+        padding: 8,
+        marginTop: 50,
+        marginBottom: 50,
+        display: 'flex',
+        justifyContent: 'center',
+        width: 550,
+        flex: '1 0 auto',
+    },
+    details: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    content: {
+        flex: '1 0 auto',
+    },
+    logo: {
+        margin: 10,
+        width: 50,
+        flex: '1 0 auto',
+    },
+    formControl: {
+        margin: theme.spacing(3),
+        minWidth: 200,
+    },
+    button: {
+        padding: 8,
+        marginTop: 30,
+    }
+}));
 
-    handleChange = (evt) => this.setState({ selectedUser: evt.target.value });
+const Login = (props) => {
+    const classes = useStyles();
+    const [selectedUser, setSelectedUser] = useState("none");
+    const { users, dispatch } = props;
 
-    handleSubmit = (evt) => {
+    const handleChange = (evt) => setSelectedUser(evt.target.value);
+
+    const handleSubmit = (evt) => {
         evt.preventDefault();
-
-        const { selectedUser } = this.state;
-
-        const { dispatch } = this.props;
 
         dispatch(handleSetAuthUser(selectedUser));
     };
 
-    render() {
-        const { users } = this.props;
-        const { selectedUser } = this.state;
-
-        return (
-            <Card
-                border="success"
-                style={{ width: '18rem' }}
-                className="m-5"
-            >
-                <Card.Header>
-                    Welcome to <strong>Would You Rather...</strong>
-                </Card.Header>
-                <Card.Body>
-                    <Form
-                        onSubmit={this.handleSubmit}
-                    >
-                        <Form.Group className="mb-3">
-                            <Form.Select
-                                value={selectedUser}
-                                onChange={this.handleChange}
+    return (
+        <Box>
+            <Card className={classes.root}>
+                <div className={classes.details}>
+                    <CardContent className={classes.content}>
+                        <Typography component="h5" variant="h5">
+                            Sign in
+                        </Typography>
+                        <form onSubmit={handleSubmit}>
+                            <FormControl
+                                variant="outlined"
+                                className={classes.formControl}
                             >
-                                <option
-                                    key="none"
-                                    value="none"
+                                <InputLabel id="user-dropdown-label">User</InputLabel>
+                                <Select
+                                    id="user-dropdown"
+                                    labelId="user-dropdown-label"
+                                    label="User"
+                                    value={selectedUser}
+                                    onChange={handleChange}
+                                    color="primary"
                                 >
-                                    Select a user to log in
-                                </option>
-                                {
-                                    users
-                                    &&
-                                    Object.values(users).map((user) => (
-                                        <option
-                                            key={user.id}
-                                            value={user.id}
-                                        >
-                                            {user.name}
-                                        </option>
-                                    ))
-                                }
-                            </Form.Select>
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Button
-                                variant="success"
-                                type="submit"
-                                disabled={selectedUser === "none"}
-                            >
-                                Log in
-                            </Button>
-                        </Form.Group>
-                    </Form>
-                </Card.Body>
+                                    <MenuItem
+                                        key="none"
+                                        value="none"
+                                    >
+                                        None
+                                    </MenuItem>
+                                    {
+                                        users
+                                        &&
+                                        Object.values(users).map((user) => (
+                                            <MenuItem
+                                                key={user.id}
+                                                value={user.id}
+                                            >
+                                                {user.name}
+                                            </MenuItem>
+                                        ))
+                                    }
+                                </Select>
+                                <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    type="submit"
+                                    disabled={selectedUser === "none"}
+                                    className={classes.button}
+                                >
+                                    Sign in
+                                </Button>
+                            </FormControl>
+                        </form>
+                    </CardContent>
+                </div>
+                <CardMedia
+                    className={classes.logo}
+                    image="/logo/logo.jpg"
+                    title="would you rather logo"
+                />
             </Card>
-        );
-    }
+        </Box >
+    );
 };
 
 const mapStateToProps = ({ users }) => {

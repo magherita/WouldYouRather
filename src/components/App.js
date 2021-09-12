@@ -6,10 +6,9 @@ import { LoadingBar } from "react-redux-loading";
 import { handleInitState } from "../actions/shared";
 
 import {
-  Container,
-  Row,
-  Col
-} from "react-bootstrap";
+  CssBaseline,
+  Container
+} from "@material-ui/core";
 
 import Login from "./Login";
 import NavBar from "./NavBar";
@@ -23,31 +22,26 @@ class App extends React.Component {
   }
 
   render() {
-    const { unauthorized, user } = this.props;
+    const { unauthorized } = this.props;
 
     return (
       <BrowserRouter>
         <React.Fragment>
+          <CssBaseline />
           <LoadingBar />
-          <Container fluid>
-            <Row>
-              <Col sm></Col>
-              <Col sm>
-                {
-                  unauthorized === true
-                    ?
-                    <Login />
-                    :
-                    <div>
-                      <NavBar user={user} />
-                      <Route path="/" exact component={Home} />
-                      <Route path="/add" exact component={NewQuestion} />
-                      <Route path="/leaderboard" exact component={LeaderBoard} />
-                    </div>
-                }
-              </Col>
-              <Col sm></Col>
-            </Row>
+          <Container fixed>
+            {
+              unauthorized === true
+                ?
+                <Login />
+                :
+                <div>
+                  <NavBar />
+                  <Route path="/" exact component={Home} />
+                  <Route path="/add" exact component={NewQuestion} />
+                  <Route path="/leaderboard" exact component={LeaderBoard} />
+                </div>
+            }
           </Container >
         </React.Fragment>
       </BrowserRouter>
@@ -55,11 +49,9 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = ({ authedUser, users }) => {
+const mapStateToProps = ({ authedUser }) => {
   return {
-    unauthorized: authedUser === "none",
-    user: users[authedUser],
-    users
+    unauthorized: authedUser === "none"
   }
 };
 

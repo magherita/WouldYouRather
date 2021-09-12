@@ -1,7 +1,12 @@
+import React from "react";
+
+import QuestionTabs from "./QuestionTabs";
+
+
 const Home = () => {
     return (
         <div>
-            Home
+            <QuestionTabs />
         </div>
     );
 };
