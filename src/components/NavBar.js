@@ -4,49 +4,32 @@ import { connect } from "react-redux";
 
 import { makeStyles } from '@material-ui/core/styles';
 import {
-    Box
+    AppBar,
+    Toolbar,
+    IconButton
 } from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
 
-import Logout from "./Logout";
+import Account from "./Account";
 
-const useStyles = makeStyles((_) => ({
+const useStyles = makeStyles((theme) => ({
     root: {
-        margin: 0,
+        flexGrow: 1,
+        marginBottom: theme.spacing(10)
     },
     active: {
         fontWeight: 'bold',
     },
-    nav: {
-        '& ul': {
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
-            textDecoration: 'none',
-            paddingLeft: 0,
-        },
-        '& li:first-child': {
-            paddingLeft: 0,
-        },
-        '& li': {
-            listStyleType: 'none',
-            padding: 10,
-            textDecoration: 'none',
-        },
-        '& a': {
-            textDecoration: 'none',
-            color: '#252525',
-        },
+    menu: {
+        textDecoration: 'none',
+        color: 'white',
+        fontSize: 16
     },
-    btn: {
-        textTransform: 'sentencecase',
-        margin: '35 auto',
-        padding: 10,
-        border: '1px solid rgba(0, 0, 0, 0.29)',
-        cursor: 'pointer',
-        background: '#fff',
-        fontSize: 14,
-        width: 'auto',
-        position: 'relative',
+    menuButton: {
+        marginRight: theme.spacing(2),
+    },
+    account: {
+        marginLeft: 'auto',
     }
 }));
 
@@ -55,36 +38,66 @@ const NavBar = (props) => {
     const classes = useStyles();
 
     return (
-        <Box className={classes.root}>
-            <nav className={classes.nav}>
-                <ul>
-                    <li>
-                        <NavLink to="/" exact activeClassName={classes.active}>
+        <div className={classes.root}>
+            <AppBar
+                position="fixed"
+                color="primary"
+            >
+                <Toolbar>
+                    <IconButton
+                        edge="start"
+                        className={classes.menuButton}
+                        color="inherit"
+                        aria-label="menu"
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <IconButton
+                        color="inherit"
+                    >
+                        <NavLink
+                            to="/"
+                            exact
+                            activeClassName={classes.active}
+                            className={classes.menu}
+                        >
                             Home
                         </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/add" activeClassName={classes.active}>
+                    </IconButton>
+                    <IconButton
+                        color="inherit"
+                    >
+                        <NavLink
+                            to="/add"
+                            activeClassName={classes.active}
+                            className={classes.menu}
+                        >
                             New Question
                         </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/leaderboard" activeClassName={classes.active}>
+                    </IconButton>
+                    <IconButton
+                        color="inherit"
+                    >
+                        <NavLink
+                            to="/leaderboard"
+                            activeClassName={classes.active}
+                            className={classes.menu}
+                        >
                             Leader Board
                         </NavLink>
-                    </li>
+                    </IconButton>
                     {
                         authedUser !== "none"
                         &&
                         (
-                            <li>
-                                <Logout />
-                            </li>
+                            <span className={classes.account}>
+                                <Account />
+                            </span>
                         )
                     }
-                </ul>
-            </nav>
-        </Box>
+                </Toolbar>
+            </AppBar>
+        </div>
     );
 };
 

@@ -11,8 +11,7 @@ import {
     AppBar,
     Tabs,
     Tab,
-    Typography,
-    Box
+    Paper
 } from "@material-ui/core";
 
 import Question from "./Question";
@@ -30,9 +29,7 @@ const TabPanel = (props) => {
             {...other}
         >
             {value === index && (
-                <Box p={3}>
-                    <Typography>{children}</Typography>
-                </Box>
+                <Paper>{children}</Paper>
             )}
         </div>
     );
@@ -66,7 +63,7 @@ const QuestionTabs = (props) => {
     const [value, setValue] = React.useState(0);
     const { answeredIds, unansweredIds } = props;
 
-    const handleChange = (event, newValue) => {
+    const handleChange = (_, newValue) => {
         setValue(newValue);
     };
 
@@ -84,8 +81,8 @@ const QuestionTabs = (props) => {
                     textColor="primary"
                     variant="fullWidth"
                 >
-                    <Tab className={classes.text} label="Unanswered Questions" {...a11yProps(0)} />
-                    <Tab className={classes.text} label="Answered Questions" {...a11yProps(1)} />
+                    <Tab className={classes.text} label="Unanswered" {...a11yProps(0)} />
+                    <Tab className={classes.text} label="Answered" {...a11yProps(1)} />
                 </Tabs>
             </AppBar>
             <SwipeableViews

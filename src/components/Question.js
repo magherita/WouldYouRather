@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 import {
     makeStyles
@@ -13,6 +14,7 @@ import {
     CardActions,
     Button
 } from "@material-ui/core";
+import { formatDate } from "../utils/helpers";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -26,16 +28,15 @@ const useStyles = makeStyles((theme) => ({
 
 const Question = (props) => {
     const classes = useStyles();
-    const { question, author } = props;
+    const { question, author, history } = props;
 
-    const date = new Date(question.timestamp);
-    const day = date.getDate();
-    const month = date.getMonth();
-    const year = date.getFullYear();
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const seconds = date.getSeconds();
-    const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+    const formattedDate = formatDate(question.timestamp);
+
+    const toPoll = (event, id) => {
+        event.preventDefault();
+
+        history.push(`/questions/${id}`);
+    };
 
     return (
         <Card className={classes.root}>
@@ -63,6 +64,7 @@ const Question = (props) => {
                     variant="outlined"
                     color="primary"
                     className={classes.btn}
+                    onClick={(event) => toPoll(event, question.id)}
                 >
                     View Poll
                 </Button>
@@ -78,4 +80,4 @@ const mapStateToProps = ({ questions, users }, { id }) => {
     };
 }
 
-export default connect(mapStateToProps)(Question);
+export default withRouter(connect(mapStateToProps)(Question));

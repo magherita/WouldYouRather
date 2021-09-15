@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import { connect } from "react-redux";
-import { LoadingBar } from "react-redux-loading";
+import LoadingBar from "react-redux-loading";
 
 import { handleInitState } from "../actions/shared";
 
@@ -14,6 +14,7 @@ import Login from "./Login";
 import NavBar from "./NavBar";
 import Home from "./Home";
 import NewQuestion from "./NewQuestion";
+import Poll from "./Poll";
 import LeaderBoard from "./LeaderBoard";
 
 class App extends React.Component {
@@ -22,7 +23,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { unauthorized } = this.props;
+    const { isSignedIn, isLoaded } = this.props;
 
     return (
       <BrowserRouter>
@@ -31,16 +32,27 @@ class App extends React.Component {
           <LoadingBar />
           <Container fixed>
             {
-              unauthorized === true
-                ?
-                <Login />
-                :
+              isLoaded
+              &&
+              (
                 <div>
-                  <NavBar />
-                  <Route path="/" exact component={Home} />
-                  <Route path="/add" exact component={NewQuestion} />
-                  <Route path="/leaderboard" exact component={LeaderBoard} />
+                  {
+                    isSignedIn
+                      ?
+                      (
+                        <div>
+                          <NavBar />
+                          <Route path="/" exact component={Home} />
+                          <Route path="/add" exact component={NewQuestion} />
+                          <Route path="/questions/:id" exact component={Poll} />
+                          <Route path="/leaderboard" exact component={LeaderBoard} />
+                        </div>
+                      )
+                      :
+                      <Login />
+                  }
                 </div>
+              )
             }
           </Container >
         </React.Fragment>
@@ -49,10 +61,15 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = ({ authedUser }) => {
+const mapStateToProps = ({ authedUser, users, questions }) => {
+  const stateIsLoaded = Object.keys(users).length > 0
+    &&
+    Object.keys(questions).length > 0;
+
   return {
-    unauthorized: authedUser === "none"
-  }
+    isSignedIn: authedUser !== "none",
+    isLoaded: stateIsLoaded
+  };
 };
 
 export default connect(mapStateToProps)(App);

@@ -27,19 +27,19 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'center',
         width: 550,
-        flex: '1 0 auto',
+        flexGrow: 1,
     },
     details: {
         display: 'flex',
         flexDirection: 'column',
     },
     content: {
-        flex: '1 0 auto',
+        flexGrow: 1,
     },
     logo: {
-        margin: 10,
+        marginLeft: 'auto',
         width: 50,
-        flex: '1 0 auto',
+        flexGrow: 1,
     },
     formControl: {
         margin: theme.spacing(3),
@@ -48,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
     button: {
         padding: 8,
         marginTop: 30,
+        textTransform: "capitalize"
     }
 }));
 
