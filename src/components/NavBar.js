@@ -72,7 +72,7 @@ const NavBar = (props) => {
                             activeClassName={classes.active}
                             className={classes.menu}
                         >
-                            New Question
+                            Add Question
                         </NavLink>
                     </IconButton>
                     <IconButton

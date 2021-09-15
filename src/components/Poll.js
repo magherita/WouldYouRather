@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 
 import UnansweredQuestion from "./UnansweredQuestion";
 import AnsweredQuestion from "./AnsweredQuestion";
+import { getUserAnsweredQuestionIds } from "../utils/helpers";
 
 const Poll = (props) => {
     const { id, answered } = props;
@@ -10,7 +11,7 @@ const Poll = (props) => {
     return (
         <div>
             {
-                answered === true
+                answered
                     ?
                     <AnsweredQuestion id={id} />
                     :
@@ -20,9 +21,9 @@ const Poll = (props) => {
     );
 };
 
-const mapStateToProps = ({ authedUser, users }, props) => {
+const mapStateToProps = ({ authedUser, questions }, props) => {
     const { id } = props.match.params;
-    const answeredIds = Object.keys(users[authedUser].answers);
+    const answeredIds = getUserAnsweredQuestionIds(questions, authedUser);
 
     return {
         id,

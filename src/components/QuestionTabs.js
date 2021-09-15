@@ -15,6 +15,7 @@ import {
 } from "@material-ui/core";
 
 import Question from "./Question";
+import { getUserAnsweredQuestionIds } from "../utils/helpers";
 
 
 const TabPanel = (props) => {
@@ -114,19 +115,9 @@ const QuestionTabs = (props) => {
 };
 
 const mapStateToProps = ({ authedUser, questions }) => {
-    let optionOneAnsweredQuestions = Object.values(questions)
-        .filter(q => q.optionOne.votes.includes(authedUser));
+    const answeredIds = getUserAnsweredQuestionIds(questions, authedUser);
 
-    let optionTwoAnsweredQuestions = Object.values(questions)
-        .filter(q => q.optionTwo.votes.includes(authedUser));
-
-    let totalAnsweredQuestions = optionOneAnsweredQuestions.concat(optionTwoAnsweredQuestions);
-
-    let answeredIds = totalAnsweredQuestions
-        .sort((a, b) => b.timestamp - a.timestamp)
-        .map(q => q.id);
-
-    let unansweredIds = Object.values(questions)
+    const unansweredIds = Object.values(questions)
         .sort((a, b) => b.timestamp - a.timestamp)
         .filter(q => !answeredIds.includes(q.id))
         .map(q => q.id);

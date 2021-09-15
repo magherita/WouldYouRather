@@ -13,7 +13,7 @@ import {
 import Login from "./Login";
 import NavBar from "./NavBar";
 import Home from "./Home";
-import NewQuestion from "./NewQuestion";
+import AddQuestion from "./AddQuestion";
 import Poll from "./Poll";
 import LeaderBoard from "./LeaderBoard";
 
@@ -43,7 +43,7 @@ class App extends React.Component {
                         <div>
                           <NavBar />
                           <Route path="/" exact component={Home} />
-                          <Route path="/add" exact component={NewQuestion} />
+                          <Route path="/add" exact component={AddQuestion} />
                           <Route path="/questions/:id" exact component={Poll} />
                           <Route path="/leaderboard" exact component={LeaderBoard} />
                         </div>

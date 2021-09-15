@@ -15,7 +15,6 @@ import { formatDate } from "../utils/helpers";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        margin: theme.spacing(2),
         padding: theme.spacing(2),
     },
     btn: {
