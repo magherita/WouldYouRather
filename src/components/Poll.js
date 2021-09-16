@@ -5,19 +5,29 @@ import UnansweredQuestion from "./UnansweredQuestion";
 import AnsweredQuestion from "./AnsweredQuestion";
 import { getUserAnsweredQuestionIds } from "../utils/helpers";
 
+import NotFound from "./NotFound";
+
 const Poll = (props) => {
-    const { id, answered } = props;
+    const { id, answered, exists } = props;
 
     return (
-        <div>
+        <React.Fragment>
             {
-                answered
+                exists
                     ?
-                    <AnsweredQuestion id={id} />
+                    <React.Fragment>
+                        {
+                            answered
+                                ?
+                                <AnsweredQuestion id={id} />
+                                :
+                                <UnansweredQuestion id={id} />
+                        }
+                    </React.Fragment>
                     :
-                    <UnansweredQuestion id={id} />
+                    <NotFound />
             }
-        </div>
+        </React.Fragment>
     );
 };
 
@@ -27,7 +37,8 @@ const mapStateToProps = ({ authedUser, questions }, props) => {
 
     return {
         id,
-        answered: answeredIds.includes(id)
+        answered: answeredIds.includes(id),
+        exists: Object.keys(questions).includes(id)
     }
 };
 

@@ -18,8 +18,6 @@ import { handleAddQuestion } from "../actions/questions";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        // display: 'flex',
-        // flexWrap: 'wrap',
         padding: theme.spacing(2),
     },
     formControl: {

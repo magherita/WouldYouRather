@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import LoadingBar from "react-redux-loading";
 
@@ -16,6 +16,7 @@ import Home from "./Home";
 import AddQuestion from "./AddQuestion";
 import Poll from "./Poll";
 import LeaderBoard from "./LeaderBoard";
+import NotFound from "./NotFound";
 
 class App extends React.Component {
   componentDidMount() {
@@ -35,23 +36,26 @@ class App extends React.Component {
               isLoaded
               &&
               (
-                <div>
+                <React.Fragment>
                   {
                     isSignedIn
                       ?
                       (
-                        <div>
+                        <React.Fragment>
                           <NavBar />
-                          <Route path="/" exact component={Home} />
-                          <Route path="/add" exact component={AddQuestion} />
-                          <Route path="/questions/:id" exact component={Poll} />
-                          <Route path="/leaderboard" exact component={LeaderBoard} />
-                        </div>
+                          <Switch>
+                            <Route path="/" exact component={Home} />
+                            <Route path="/add" exact component={AddQuestion} />
+                            <Route path="/questions/:id" exact component={Poll} />
+                            <Route path="/leaderboard" exact component={LeaderBoard} />
+                            <Route path="*" component={NotFound} />
+                          </Switch>
+                        </React.Fragment>
                       )
                       :
                       <Login />
                   }
-                </div>
+                </React.Fragment>
               )
             }
           </Container >

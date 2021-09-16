@@ -33,19 +33,19 @@ const useStyles = makeStyles((theme) => ({
 
 const AnsweredQuestion = (props) => {
     const classes = useStyles();
-    const { question, author } = props;
+    const {
+        question,
+        author,
+        optionOneVotes,
+        optionTwoVotes,
+        totalVotes,
+        optionOnePercentVote,
+        optionTwoPercentVote,
+        votedOptionOne,
+        votedOptionTwo
+    } = props;
 
     const formattedDate = formatDate(question.timestamp);
-
-    const optionOneVotes = question.optionOne.votes.length;
-    const optionTwoVotes = question.optionTwo.votes.length;
-    const totalVotes = optionOneVotes + optionTwoVotes;
-
-    const optionOnePercentVote = Math.round(((optionOneVotes / totalVotes) * 100));
-    const optionTwoPercentVote = Math.round(((optionTwoVotes / totalVotes) * 100));
-
-    const votedOptionOne = question.optionOne.votes.includes(author.id);
-    const votedOptionTwo = question.optionTwo.votes.includes(author.id);
 
     // styles
     const containerStyles = {
@@ -133,10 +133,27 @@ const AnsweredQuestion = (props) => {
     );
 };
 
-const mapStateToProps = ({ questions, users }, { id }) => {
+const mapStateToProps = ({ questions, users, authedUser }, { id }) => {
+    const question = questions[id];
+    const author = users[questions[id].author];
+    const optionOneVotes = question.optionOne.votes.length;
+    const optionTwoVotes = question.optionTwo.votes.length;
+    const totalVotes = optionOneVotes + optionTwoVotes;
+    const optionOnePercentVote = Math.round(((optionOneVotes / totalVotes) * 100));
+    const optionTwoPercentVote = Math.round(((optionTwoVotes / totalVotes) * 100));
+    const votedOptionOne = question.optionOne.votes.includes(authedUser);
+    const votedOptionTwo = question.optionTwo.votes.includes(authedUser);
+
     return {
-        question: questions[id],
-        author: users[questions[id].author]
+        question,
+        author,
+        optionOneVotes,
+        optionTwoVotes,
+        totalVotes,
+        optionOnePercentVote,
+        optionTwoPercentVote,
+        votedOptionOne,
+        votedOptionTwo
     };
 };
 
