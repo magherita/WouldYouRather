@@ -16,13 +16,10 @@ export const handleInitState = () => (dispatch) => {
         .then(({ questions, users }) => {
             dispatch(setUsers(users));
             dispatch(setQuestions(questions));
-        })
-        .then(() => {
+
             // load signed in user from localstorage in case there is any
             // done after users are loaded
-            const signedInUser = getSignedInUser();
-
-            dispatch(setAuthUser(signedInUser));
+            dispatch(setAuthUser(getSignedInUser(users)));
         })
         .then(() => dispatch(hideLoading()));
 };

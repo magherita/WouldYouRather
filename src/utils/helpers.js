@@ -11,13 +11,14 @@ export const formatDate = (timestamp) => {
     return formattedDate;
 };
 
-export const checkSignIn = () => {
-    return localStorage.getItem("authedUser") !== "none"
-        &&
-        localStorage.getItem("authedUser") !== null;
+export const checkSignIn = (users) => {
+    const signedInUser = localStorage.getItem("authedUser");
+    const exists = Object.keys(users).includes(signedInUser);
+
+    return signedInUser !== "none" && exists;
 };
 
-export const getSignedInUser = () => checkSignIn() ? localStorage.getItem("authedUser") : "none";
+export const getSignedInUser = (users) => checkSignIn(users) ? localStorage.getItem("authedUser") : "none";
 
 export const getUserAnsweredQuestionIds = (questions, user) => {
     const optionOneAnsweredQuestions = Object.values(questions)
